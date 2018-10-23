@@ -47,6 +47,14 @@ abstract class SensorAbstract
 
 
     /**
+     * For sensor result meta-information
+     *
+     * @var
+     */
+    protected $meta = null;
+
+
+    /**
      * Результат сенсора
      * @return string
      */
@@ -61,7 +69,7 @@ abstract class SensorAbstract
         $this->config = $config;
 
         if ($this instanceof CacheableInterface) {
-            $this->cacheKey = 'i3-phpbar.' . get_class($this);
+            $this->cacheKey = 'i3-phpbar.' . spl_object_hash($this);
 
             if (isset($config['cache_time'])) {
                 $this->cacheTime = $config['cache_time'];
@@ -81,6 +89,10 @@ abstract class SensorAbstract
      */
     public function getColor()
     {
+        if (isset($this->config['colorify']) && is_callable($this->config['colorify'])) {
+            return $this->config['colorify']();
+        }
+
         return $this->color;
     }
 
@@ -96,5 +108,10 @@ abstract class SensorAbstract
         $this->di = $di;
 
         return $this;
+    }
+
+    public function getMeta()
+    {
+        return $this->meta;
     }
 }

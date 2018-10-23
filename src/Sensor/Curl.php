@@ -22,6 +22,8 @@ class Curl
                 CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36',
                 CURLOPT_TIMEOUT => 3,
                 CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_MAXREDIRS => 10
             ];
         foreach ($options as $key => $value) {
             $allOptions[$key] = $value;
